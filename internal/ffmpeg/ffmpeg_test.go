@@ -6,7 +6,7 @@ import (
 )
 
 func TestCodecLongName(t *testing.T) {
-	filepath := "testdata/json/1.mp3.json"
+	filepath := "testdata/1.mp3.json"
 	target_codec_long_name := "MP3 (MPEG audio layer 3)"
 
 	b, err := ioutil.ReadFile(filepath)
@@ -33,8 +33,8 @@ func TestChooseFormatRaw(t *testing.T) {
 		af       AudioFormat
 		ok       bool
 	}{
-		{"testdata/json/1.mp3.json", AudioFormat{"mp3", "mp3", "audio/mpeg"}, true},
-		{"testdata/json/err-cln.json", AudioFormat{}, false},
+		{"testdata/1.mp3.json", AudioFormat{"mp3", "mp3", "audio/mpeg"}, true},
+		{"testdata/err-cln.json", AudioFormat{}, false},
 	}
 
 	for _, c := range cases {
