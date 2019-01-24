@@ -20,7 +20,8 @@ import (
 )
 
 type Opts struct {
-	FFmpegDir string `long:"ffmpeg-dir" description:"Root directory of FFmpeg distribution" required:"true"`
+	FFmpegPath  string `long:"ffmpeg" description:"path to the ffmpeg command" default:"ffmpeg"`
+	FFprobePath string `long:"ffprobe" description:"path to the ffprobe command" default:"ffprobe"`
 
 	Addr string `long:"addr" description:"TCP network address to listen on" default:":8080"`
 }
@@ -36,15 +37,15 @@ func main() {
 		return
 	}
 
-	err = run(opts.FFmpegDir, opts.Addr)
+	err = run(opts.FFmpegPath, opts.FFprobePath, opts.Addr)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 }
 
-func run(ffmpegDir, addr string) error {
-	app, err := NewApp(ffmpegDir)
+func run(ffmpegPath, ffprobePath, addr string) error {
+	app, err := NewApp(ffmpegPath, ffprobePath)
 	if err != nil {
 		return err
 	}

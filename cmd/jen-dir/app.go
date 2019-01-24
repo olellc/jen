@@ -15,14 +15,6 @@ type App struct {
 	outRoot   string // root directory for extracted sound
 }
 
-func NewApp(ffmpegDir, videoDir, outDir string) *App {
-	return &App{
-		cmd:       ffmpeg.New(ffmpegDir),
-		videoRoot: videoDir,
-		outRoot:   outDir,
-	}
-}
-
 func (app *App) Extract() error {
 	err := os.RemoveAll(app.outRoot)
 	if err != nil {

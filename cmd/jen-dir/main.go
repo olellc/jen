@@ -11,14 +11,17 @@ import (
 	"fmt"
 
 	"github.com/jessevdk/go-flags"
+
+	"github.com/olellc/jen/internal/ffmpeg"
 )
 
 type Opts struct {
-	FFmpegDir string `long:"ffmpeg-dir" description:"Root directory of FFmpeg distribution" required:"true"`
+	FFmpegPath  string `long:"ffmpeg" description:"path to the ffmpeg command" default:"ffmpeg"`
+	FFprobePath string `long:"ffprobe" description:"path to the ffprobe command" default:"ffprobe"`
 
-	VideoDir string `short:"i" long:"videodir" description:"Input directory with videos to extract" required:"true"`
+	VideoDir string `short:"i" long:"videodir" description:"input directory with videos to extract" required:"true"`
 
-	OutDir string `short:"o" long:"outdir" description:"Output directory for audio. If exists, it will be removed before extraction." required:"true"`
+	OutDir string `short:"o" long:"outdir" description:"output directory for audio. If exists, it will be removed before extraction." required:"true"`
 }
 
 func main() {
@@ -32,7 +35,14 @@ func main() {
 		return
 	}
 
-	app := NewApp(opts.FFmpegDir, opts.VideoDir, opts.OutDir)
+	app := App{
+		cmd: &ffmpeg.FFmpeg{
+			FFmpegPath:  opts.FFmpegPath,
+			FFprobePath: opts.FFprobePath,
+		},
+		videoRoot: opts.VideoDir,
+		outRoot:   opts.OutDir,
+	}
 
 	err = app.Extract()
 	if err != nil {

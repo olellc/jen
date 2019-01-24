@@ -5,22 +5,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"os/exec"
-	"path/filepath"
 )
 
 // FFmpeg represents FFmpeg distribution
 type FFmpeg struct {
-	ffprobePath string
-	ffmpegPath  string
-}
-
-func New(ffmpegDir string) *FFmpeg {
-	var ff FFmpeg
-
-	ff.ffprobePath = filepath.Join(ffmpegDir, "ffprobe")
-	ff.ffmpegPath = filepath.Join(ffmpegDir, "ffmpeg")
-
-	return &ff
+	FFmpegPath  string // path to the ffmpeg command
+	FFprobePath string // path to the ffprobe command
 }
 
 // PathSwitcher returns a path to the file that would be used for
@@ -65,7 +55,7 @@ func (ff *FFmpeg) chooseFormat(videoPath string) (AudioFormat, error) {
 
 // ffprobe determines content of the path
 func (ff *FFmpeg) ffprobe(path string) (output []byte, err error) {
-	cmd := exec.Command(ff.ffprobePath,
+	cmd := exec.Command(ff.FFprobePath,
 		"-loglevel", "quiet", "-print_format", "json", "-show_streams", "-select_streams", "a", path)
 
 	cmd.Env = []string{}
@@ -121,7 +111,7 @@ func (ff *FFmpeg) extractToExt(videoPath, audioPath string) error {
 		audioPath,
 	}
 
-	cmd := exec.Command(ff.ffmpegPath, arg...)
+	cmd := exec.Command(ff.FFmpegPath, arg...)
 	cmd.Env = []string{}
 
 	return cmd.Run()
@@ -141,7 +131,7 @@ func (ff *FFmpeg) extractToFormat(videoPath, audioPath, audioFormatName string) 
 		audioPath,
 	}
 
-	cmd := exec.Command(ff.ffmpegPath, arg...)
+	cmd := exec.Command(ff.FFmpegPath, arg...)
 	cmd.Env = []string{}
 
 	return cmd.Run()

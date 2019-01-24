@@ -21,8 +21,11 @@ type App struct {
 	audios  *AudioRegistry
 }
 
-func NewApp(ffmpegDir string) (*App, error) {
-	cmd := ffmpeg.New(ffmpegDir)
+func NewApp(ffmpegPath, ffprobePath string) (*App, error) {
+	cmd := &ffmpeg.FFmpeg{
+		FFmpegPath:  ffmpegPath,
+		FFprobePath: ffprobePath,
+	}
 
 	cluster, err := NewTempCluster()
 	if err != nil {
