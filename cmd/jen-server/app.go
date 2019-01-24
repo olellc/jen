@@ -11,7 +11,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 
-	"github.com/olellc/jen/ffmpeg"
+	"github.com/olellc/jen/internal/ffmpeg"
 )
 
 // App is an audio extraction service

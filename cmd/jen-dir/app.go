@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/olellc/jen/ffmpeg"
+	"github.com/olellc/jen/internal/ffmpeg"
 )
 
 type App struct {
