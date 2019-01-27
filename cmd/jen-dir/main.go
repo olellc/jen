@@ -1,10 +1,3 @@
-/*
-Jen-dir extracts audio from all video files in a directory without reencoding.
-Under cover it uses FFmpeg for the actual work.
-See
-	jen-dir --help
-for the command line options.
-*/
 package main
 
 import (

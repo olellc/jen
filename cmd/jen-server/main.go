@@ -1,11 +1,3 @@
-/*
-Jen-server extracts audio from video files without reencoding.
-It runs HTTP server providing audio extraction via browser UI.
-Under cover it uses FFmpeg for the actual work.
-See
-	jen-server --help
-for the command line options.
-*/
 package main
 
 import (
