@@ -60,7 +60,12 @@ func (ff *FFmpeg) ffprobe(path string) (output []byte, err error) {
 
 	cmd.Env = []string{}
 
-	return cmd.Output()
+	out, err := cmd.Output()
+	if err != nil {
+		return nil, fmt.Errorf("ffprobe: %v", err)
+	}
+
+	return out, nil
 }
 
 // Choose audio format by video file content
@@ -114,7 +119,12 @@ func (ff *FFmpeg) extractToExt(videoPath, audioPath string) error {
 	cmd := exec.Command(ff.FFmpegPath, arg...)
 	cmd.Env = []string{}
 
-	return cmd.Run()
+	err := cmd.Run()
+	if err != nil {
+		return fmt.Errorf("ffmpeg: %v", err)
+	}
+
+	return nil
 }
 
 // Extract audio from videoPath to audioPath without reencoding.
@@ -134,5 +144,10 @@ func (ff *FFmpeg) extractToFormat(videoPath, audioPath, audioFormatName string) 
 	cmd := exec.Command(ff.FFmpegPath, arg...)
 	cmd.Env = []string{}
 
-	return cmd.Run()
+	err := cmd.Run()
+	if err != nil {
+		return fmt.Errorf("ffmpeg: %v", err)
+	}
+
+	return nil
 }
