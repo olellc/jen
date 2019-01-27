@@ -41,7 +41,7 @@ func (app *App) extractor(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	friendly_name := nameConv(part.FileName(), audioFormat.Ext)
+	friendly_name := setExt(part.FileName(), audioFormat.Ext)
 
 	app.audios.Add(id, AudioHandle{
 		Path:         audioPath,
@@ -57,13 +57,12 @@ func (app *App) extractor(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-// videoFN - kinda video file name
-// audioFN - kinda audio file name
-func nameConv(videoFN, audioExt string) (audioFN string) {
-	videoExt := filepath.Ext(videoFN)
-	audioFN = videoFN[:len(videoFN)-len(videoExt)] + "." + audioExt
+// Set file extension. If the file already has an extension, replace it with a new one.
+func setExt(path, ext string) string {
+	oldExt := filepath.Ext(path)
+	newPath := path[:len(path)-len(oldExt)] + "." + ext
 
-	return audioFN
+	return newPath
 }
 
 // id must look like "951134894"
